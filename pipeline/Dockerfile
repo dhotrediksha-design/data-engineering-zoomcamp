@@ -10,7 +10,13 @@ WORKDIR /code
 ENV PATH="/code/.venv/bin:$PATH"
 
 # Copy dependency files first (better layer caching)
-COPY "pyproject.toml" "uv.lock" ".python-version" ./
+COPY pyproject.toml .python-version uv.lock ./
+
+# README is required by pyproject.toml
+COPY README.md ./
+
+#copy source file
+COPY src ./src
 
 # Install dependencies from lock file (ensures reproducible builds)
 RUN uv sync --locked
@@ -18,8 +24,9 @@ RUN uv sync --locked
 #no need to run this packages separately as we are copying uv
 #RUN pip install pandas pyarrow
 
-# Copy application code
-COPY pipeline.py pipeline.py
+# Copy application code   
+COPY taxi_notebook.py .
 
 # Set entry point
-ENTRYPOINT ["python","pipeline.py"]
+#ENTRYPOINT ["python","taxi_notebook.py"]
+ENTRYPOINT ["uv", "run", "python", "taxi_notebook.py"]
