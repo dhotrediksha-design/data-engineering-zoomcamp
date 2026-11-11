@@ -48,8 +48,9 @@ select * from renamed
 --where pickup_datetime >= '2019-01-01' and pickup_datetime < '2020-12-31'
 --{% endif %}
 
-{% if var('is_test_run', default=true) %}
+--{% if var('is_test_run', default=true) %}
 
+{% if var('is_test_run') %}
 limit 100
 
 {% endif %}
