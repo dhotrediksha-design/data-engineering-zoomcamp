@@ -1,5 +1,6 @@
 {{ config(materialized="table") }}
 
+
 with
     green_tripdata as (
         select
